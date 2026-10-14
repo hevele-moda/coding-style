@@ -1,0 +1,6 @@
+{
+  "name": "coding-style",
+  "owner": {"name": "Istvan Hevele"},
+  "description": "A coding style guide for AI coding agents.",
+  "plugins": [{"name": "coding-style", "source": "./"}]
+}
