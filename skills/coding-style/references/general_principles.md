@@ -36,11 +36,14 @@ Rules:
 
 ## 1.2 Naming
 
-Names are the primary documentation.
+Names are the primary documentation. Every name should say what a value holds or what a function does, so a reader never has to open the code behind it to find out.
 
 - Name by meaning in the domain, not by how it is built or where it is used. `wasOrderEverShipped`, not `checkFlag2`.
 - A long, exact name beats a short, vague one. `usePreventDuplicateSubmissions` needs no comment.
-- Functions are verbs, values are nouns. Booleans read as questions: `isX`, `hasX`, `wasX`, `shouldX`, `canX`.
+- Functions are verbs: `findUser`, `countOrders`, `sumRefunds`. Not `user`, `orderCount` or `refunds`.
+- Variables, constants, classes and types are nouns: `user`, `orderCount`, `MAX_LOGIN_ATTEMPTS`, `InvoiceRepository`.
+- Booleans read as questions, usually with a prefix: `isX`, `hasX`, `wasX`, `shouldX`, `canX`.
+- Dates and times usually end in `At`: `createdAt`, `expiresAt`, `lastLoginAt`.
 - `get` returns a value, `is`/`has` returns a boolean, `to`/`format` converts, `create` builds, `update` and `delete` change state.
 - Name the positive, not the negative. `isEnabled`, not `isNotDisabled`.
 - No vague words as the whole name: `data`, `info`, `item`, `helper`, `manager`, `utils`, `handle`, `process`, `do`.

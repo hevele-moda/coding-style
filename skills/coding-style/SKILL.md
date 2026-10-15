@@ -29,7 +29,7 @@ Read the files that apply before you start, not after.
 
 1. One file, one job. One function, one job.
 2. Depend downward only: entry points, then presentation, then orchestration, then pure logic.
-3. Names carry the meaning. If a name needs a comment, rename it.
+3. Names carry the meaning. Functions are verbs, everything else is a noun. If a name needs a comment, rename it.
 4. No comments by default. When justified, one line, saying why and never what.
 5. Write the least code that is obviously correct. Delete before you add.
 6. Prefer data (tables, registries, maps) over branching (`if` and `switch` chains).
