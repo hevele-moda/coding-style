@@ -32,8 +32,11 @@ Read the files that apply before you start, not after.
 3. Names carry the meaning. Functions are verbs, everything else is a noun. If a name needs a comment, rename it.
 4. No comments by default. When justified, one line, saying why and never what.
 5. Write the least code that is obviously correct. Delete before you add.
-6. Prefer data (tables, registries, maps) over branching (`if` and `switch` chains).
-7. Keep pure logic apart from side effects. Push side effects to the edges.
-8. Test behavior through the public surface. Mock only at the system boundary.
-9. Do not build for needs you do not have yet (YAGNI).
-10. Leave every file you touch a little better than you found it.
+6. Use common libraries where possible. Never re-implement what they already provide.
+7. Prefer data (tables, registries, maps) over branching (`if` and `switch` chains).
+8. Almost never write loops. Use collection methods and library helpers.
+9. Group the code inside a block into logical chunks, separated by empty lines.
+10. Keep pure logic apart from side effects. Push side effects to the edges.
+11. Test behavior through the public surface. Mock only at the system boundary.
+12. Do not build for needs you do not have yet (YAGNI).
+13. Leave every file you touch a little better than you found it.

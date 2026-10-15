@@ -90,17 +90,18 @@ export const createInvoice = ({customerId, lines, dueInDays = 30}: CreateInvoice
 
 ## 2.5 Collections and data transformation
 
-- Prefer `map`, `filter`, `reduce`, `flatMap`, `some`, `every`, `find` over manual loops for transformations. Use a plain loop when it is clearer or you need early exit with side effects.
+- Use `map`, `filter`, `reduce`, `flatMap`, `some`, `every`, `find` and `forEach` instead of `for` and `while` loops. Reach for a loop only when nothing else expresses the work clearly.
 - Chain small steps with intermediate names when a chain gets long.
 - Do not mutate inputs. Use spread and non-mutating array methods (`toSorted`, `toSpliced`, `with`) or copy first.
 - Use `Map` and `Set` for keyed lookups and uniqueness instead of scanning arrays repeatedly.
-- Use a utility library such as Lodash for what it does well (`compact`, `groupBy`, `isEqual`, `omit`) instead of rewriting it.
+- Use a utility library such as Ramda or Lodash for what it already does (`groupBy`, `indexBy`, `splitEvery`, `pick`, `equals`, `omit`) instead of rewriting it. Install one if the project has none.
 
 ## 2.6 Async code
 
 - `async`/`await` over promise chains.
 - Every promise is awaited, returned or explicitly handled. No floating promises.
-- Run independent work concurrently with `Promise.all`. Do not `await` in a loop when the iterations do not depend on each other.
+- Run independent work concurrently with `Promise.all(items.map(...))`. Do not `await` in a loop.
+- Limit concurrency with a helper such as `p-map` (`pMap(items, send, {concurrency: 10})`) instead of a batching loop.
 - Support cancellation (`AbortController`) for work that can become stale.
 - Handle errors where you can act on them. Do not wrap every `await` in `try/catch`.
 - Return typed results for expected failures instead of throwing:

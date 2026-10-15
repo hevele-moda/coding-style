@@ -47,7 +47,7 @@ Names are the primary documentation. Every name should say what a value holds or
 - `get` returns a value, `is`/`has` returns a boolean, `to`/`format` converts, `create` builds, `update` and `delete` change state.
 - Name the positive, not the negative. `isEnabled`, not `isNotDisabled`.
 - No vague words as the whole name: `data`, `info`, `item`, `helper`, `manager`, `utils`, `handle`, `process`, `do`.
-- No abbreviations except universal ones (`id`, `url`, `html`). Loop indices (`i`) are fine in a three-line loop.
+- No abbreviations except universal ones (`id`, `url`, `html`). An index parameter (`i`) is fine in a short callback.
 - A name with "and" or "or" in it is two things. Split it.
 - Name intermediate values. Pull a condition into a named constant instead of explaining it:
 
@@ -101,7 +101,7 @@ The goal is the smallest amount of code that is obviously correct.
 - Do not abstract on the second occurrence. On the third, do it, and name the abstraction after the concept it represents, not its shape.
 - Duplication is cheaper than the wrong abstraction. Do not merge code that looks alike but changes for different reasons.
 - Delete dead code, unused exports and unused parameters in the same change that makes them dead.
-- Prefer the standard library and well-known utilities over hand-rolled versions.
+- Use common libraries where possible. If the standard library or a well-known package already does it (grouping, chunking, deep equality, picking keys, date math, limiting concurrency), use it instead of writing your own. Add the package when the project lacks it.
 - A linter complexity warning is design feedback. Split the function. Do not silence it.
 - When you touch a file, leave it smaller or the same size unless you are adding real behavior.
 
@@ -143,6 +143,20 @@ Use the same idea at larger scale with a registry: define each variant as a smal
 - Make illegal states unrepresentable. Model variants explicitly (a tagged union or enum) instead of several booleans that can contradict each other.
 - Normalize messy inputs once, at the boundary. Inside, work with clean, complete values.
 - Return a value, not a status code plus an out-parameter. Return a small result object when a call has several outcomes.
+- Almost never write loops (`for`, `while`). Use collection methods (`map`, `filter`, `some`, `every`, `reduce`, `forEach`) or a library helper. A loop is a last resort, for when nothing else expresses the work clearly.
+- Group the code inside a block into logical chunks, separated by one empty line: setup, guard clauses, the main work, the result. A reader should see the steps at a glance.
+
+```ts
+const shipOrder = async (orderId: string) => {
+  const order = await findOrder(orderId);
+  if (!order.isPaid) return {status: 'unpaid'};
+
+  const label = await createLabel(order.address);
+  await saveShipment(order.id, label);
+
+  return {status: 'shipped', trackingNumber: label.trackingNumber};
+};
+```
 
 ## 1.6 Error handling
 
@@ -208,8 +222,8 @@ Tests describe what a user or a caller can observe. They must keep passing when 
 - Do not copy a pattern just because it exists nearby. One file is not a convention, and existing code may be legacy. Judge it against the principles here.
 - Keep changes focused. Do not mix refactors with behavior changes in a way that makes review hard.
 - When you touch a messy area, leave it a little better: rename a confusing thing, delete a dead branch, add the missing test. Do not attempt a rewrite you were not asked for.
-- Before adding a helper, search for one that already exists.
-- Do not add a dependency for something small. Every dependency is code you own without controlling.
+- Before adding a helper, search for one that already exists, in the project and in common libraries.
+- Prefer well-known, maintained libraries over obscure single-purpose packages. Every dependency is code you own without controlling.
 - A review suggestion, human or automated, is not a requirement. Check that its scenario can happen in this system before acting on it. If it cannot, reply with the reason instead of adding code.
 
 ## 1.10 Review checklist
@@ -218,6 +232,9 @@ Tests describe what a user or a caller can observe. They must keep passing when 
 - [ ] Dependencies point downward. Pure logic has no I/O.
 - [ ] No comment explains what the code does. No commented-out code.
 - [ ] No duplicated branching that could be a lookup table or shared function.
+- [ ] Nothing hand-rolled that a common library already provides.
+- [ ] No loops where a collection method or library helper would do.
+- [ ] Code inside each block is grouped into logical chunks by empty lines.
 - [ ] No code, option or abstraction that nothing uses yet.
 - [ ] No handling for cases that cannot happen in the deployed system. Rare cases fail loudly instead of growing new paths.
 - [ ] Errors are handled meaningfully, never swallowed.

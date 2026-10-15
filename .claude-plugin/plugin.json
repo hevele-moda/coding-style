@@ -1,6 +1,6 @@
 {
   "name": "coding-style",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A coding style guide for AI coding agents: general principles, plus TypeScript and React.",
   "author": {"name": "Istvan Hevele"}
 }
